@@ -1,18 +1,17 @@
-const env = process.env.NODE_ENV || 'development'
-const config = require('./keys')[env]
+const config = require('./keys')
 
 module.exports = {
   development: {
     client: 'sqlite3',
     connection: {
-      filename: `${config.WORK_DIR}/dbs/dev.sqlite3`,
+      filename: `${config['development'].WORK_DIR}/dbs/dev.sqlite3`,
     },
   },
 
   production: {
     client: 'sqlite3',
     connection: {
-      filename: `${config.WORK_DIR}/dbs/db.games`,
+      filename: `${config['production'].WORK_DIR}/dbs/db.games`,
     },
   },
 }
