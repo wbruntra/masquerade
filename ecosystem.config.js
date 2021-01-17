@@ -1,9 +1,8 @@
-const BASE = '/home/william/workspace/games/masquerade/'
+const BASE = '/home/william/web/masquerade/'
 
 const masquerade_db = {
   name: 'masquerade_db',
-  cwd: BASE,
-  script: `app.js`,
+  script: 'app.js',
   instances: 1,
   autorestart: true,
   watch: false,
@@ -14,6 +13,20 @@ const masquerade_db = {
   },
 }
 
+const masquerade_server = {
+  name: 'masquerade_server',
+  script: 'src/server.js',
+  node_args: '-r esm',
+  instances: 1,
+  autorestart: true,
+  watch: false,
+  max_memory_restart: '128M',
+  env: {
+    NODE_ENV: 'production',
+    PORT: '8010',
+    REACT_APP_SERVER_PORT: '8010',
+  },
+}
 module.exports = {
-  apps: [masquerade_db],
+  apps: [masquerade_db, masquerade_server],
 }
