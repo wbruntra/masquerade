@@ -15,8 +15,7 @@ const masquerade_db = {
 
 const masquerade_server = {
   name: 'masquerade_server',
-  script: 'src/server.js',
-  args: '-r esm',
+  script: 'src/server.js --node-args="-r esm"',
   instances: 1,
   autorestart: true,
   watch: false,
