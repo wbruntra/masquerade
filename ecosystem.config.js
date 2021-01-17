@@ -2,8 +2,7 @@ const BASE = '/home/william/web/masquerade/'
 
 const masquerade_db = {
   name: 'masquerade_db',
-  script: 'app.js',
-  instances: 1,
+  script: `${BASE}/app.js`,
   autorestart: true,
   watch: false,
   max_memory_restart: '128M',
@@ -15,7 +14,7 @@ const masquerade_db = {
 
 const masquerade_server = {
   name: 'masquerade_server',
-  script: './src/server.js',
+  script: `${BASE}/src/server.js`,
   node_args: '-r esm',
   autorestart: true,
   watch: false,
