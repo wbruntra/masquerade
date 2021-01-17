@@ -13,6 +13,7 @@ export const getValidBishopTargets = (G, rolePlayer) => {
 }
 
 export const swapRequired = (G, ctx) => {
+  return false
   if (G.playerMustSwap) {
     return true
   }
