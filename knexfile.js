@@ -5,14 +5,14 @@ module.exports = {
   development: {
     client: 'sqlite3',
     connection: {
-      filename: `${config.WORK_DIR}/dev.sqlite3`,
+      filename: `${config.WORK_DIR}/dbs/dev.sqlite3`,
     },
   },
 
   production: {
     client: 'sqlite3',
     connection: {
-      filename: `${config.WORK_DIR}/db.games`,
+      filename: `${config.WORK_DIR}/dbs/db.games`,
     },
   },
 }
