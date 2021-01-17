@@ -173,18 +173,21 @@ const Board = (props) => {
 
       case 'witch':
         const otherPlayers = _.omit(G.scores, playerID)
-        return Object.keys(otherPlayers).map((t) => {
-          return (
-            <>
-              <h3>Choose who you want to swap fortunes with:</h3>
-              <div className="col-3" key={t}>
-                <button className="btn btn-outline-dark" onClick={() => onChooseRoleTarget(t)}>
-                  {playerNames[t]} -- {G.scores[t]} coins
-                </button>
-              </div>
-            </>
-          )
-        })
+        return (
+          <>
+            <h3>Choose who you want to swap fortunes with:</h3>
+            {Object.keys(otherPlayers).map((t) => {
+              return (
+                <div className="col-3" key={t}>
+                  <button className="btn btn-outline-dark" onClick={() => onChooseRoleTarget(t)}>
+                    {playerNames[t]} -- {G.scores[t]} coins
+                  </button>
+                </div>
+              )
+            })}
+          </>
+        )
+
       default:
         return null
     }

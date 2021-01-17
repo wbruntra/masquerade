@@ -151,7 +151,7 @@ export const getActionString = (action, players) => {
     actionLog = `${players[action.actor]} ${action.action} ${players[action.target]}`
   }
   if (action.challengers) {
-    actionLog = `${actionLog} (penalty: ${action.challengers.map((p) => players[p]).join(', ')})`
+    actionLog = `${actionLog} (challengers: ${action.challengers.map((p) => players[p]).join(', ')})`
   }
   return actionLog
 }
