@@ -1,0 +1,35 @@
+@import './fonts';
+
+@import 'bootstrap/scss/bootstrap.scss';
+
+$font-family-sans-serif: 'Muli', sans-serif;
+$font-family-serif: 'Vollkorn', serif;
+
+$bg-gray: #b2b2b2;
+
+body {
+  margin: 0;
+  font-family: $font-family-sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #fff8bc;
+}
+
+.text-bold {
+  color: rgb(141, 62, 62);
+  font-weight: 700;
+}
+
+.bg-gray {
+  background-color: #b2b2b2;
+}
+
+// .card {
+//   height: 10vh;
+// }
+
+.card {
+  &.highlighted {
+    border: 2px solid black;
+  }
+}
