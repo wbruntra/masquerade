@@ -12,10 +12,16 @@ import {
   getActionString,
 } from './utils'
 import PlayerDisplay from './PlayerDisplay'
+import Guide from './Guide'
 
 const Board = (props) => {
   const { playerID, ctx, G, moves, playerNames } = props
   const [waitToForce, setWaitToForce] = useState(false)
+  const [displayGuide, setDisplayGuide] = useState(false)
+
+  if (displayGuide) {
+    return <Guide handleClose={() => setDisplayGuide(false)} />
+  }
 
   const RevealedPlayersDisplay = (props) => {
     const { playerID, ctx, G } = props
@@ -35,6 +41,28 @@ const Board = (props) => {
           })}
         </div>
       </>
+    )
+  }
+
+  const DisplayTargets = ({ targets, onChooseRoleTarget }) => {
+    return (
+      <div className="row">
+        {targets.map((t, i) => {
+          const isTarget = G.roleTarget === t
+          return (
+            <div className="col-4 col-md-2" key={t}>
+              <button
+                className={`btn btn-outline-dark ${isTarget ? 'active' : ''}`}
+                onClick={() => onChooseRoleTarget(t)}
+              >
+                {isTarget && '*'}
+                {playerNames[t]} - {G.scores[t]}
+                {isTarget && '*'}
+              </button>
+            </div>
+          )
+        })}
+      </div>
     )
   }
 
@@ -66,7 +94,7 @@ const Board = (props) => {
 
   const SwapDisplay = (props) => {
     return (
-      <div className="row">
+      <>
         {G.swapTarget === null ? (
           <>
             <div className="row">
@@ -78,7 +106,7 @@ const Board = (props) => {
               {_.map(G.roles, (val, key) => {
                 if (key !== playerID) {
                   return (
-                    <div key={`swap-${key}`} className="col-4 pb-4">
+                    <div key={`swap-${key}`} className="col-4 col-md-2 pb-4">
                       <button
                         className="btn btn-outline-dark"
                         onClick={() => {
@@ -115,7 +143,7 @@ const Board = (props) => {
             </div>
           </>
         )}
-      </div>
+      </>
     )
   }
 
@@ -154,39 +182,21 @@ const Board = (props) => {
         const bishopTargets = getValidBishopTargets(G, playerID)
         return (
           <>
-            <h3>Choose who to steal from:</h3>
-            {bishopTargets.map((t) => {
-              const isTarget = G.roleTarget === t
-              return (
-                <div className="col-3" key={t}>
-                  <button
-                    className={`btn btn-outline-dark ${isTarget ? 'active' : ''}`}
-                    onClick={() => onChooseRoleTarget(t)}
-                  >
-                    {isTarget && '*'}
-                    {playerNames[t]}
-                    {isTarget && '*'}
-                  </button>
-                </div>
-              )
-            })}
+            <div className="row">
+              <h3>Choose who to take from:</h3>
+            </div>
+            <DisplayTargets targets={bishopTargets} onChooseRoleTarget={onChooseRoleTarget} />
           </>
         )
-
       case 'witch':
         const otherPlayers = _.omit(G.scores, playerID)
         return (
           <>
             <h3>Choose who you want to swap fortunes with:</h3>
-            {Object.keys(otherPlayers).map((t) => {
-              return (
-                <div className="col-3" key={t}>
-                  <button className="btn btn-outline-dark" onClick={() => onChooseRoleTarget(t)}>
-                    {playerNames[t]} -- {G.scores[t]} coins
-                  </button>
-                </div>
-              )
-            })}
+            <DisplayTargets
+              targets={Object.keys(otherPlayers)}
+              onChooseRoleTarget={onChooseRoleTarget}
+            />
           </>
         )
 
@@ -258,11 +268,9 @@ const Board = (props) => {
           <h3>
             You are playing as {G.chosenRole}! You have {G.scores[playerID]} coins.
           </h3>
-          <div className="row">
-            <ChoicesDisplay G={G} />
-          </div>
+          <ChoicesDisplay G={G} />
           {canResolve && (
-            <div className="row">
+            <div className="row pt-3">
               <div className="col">
                 <button className="btn btn-outline-dark" onClick={resolveRole}>
                   {resolveButtonText}
@@ -285,12 +293,12 @@ const Board = (props) => {
   return (
     <div className="container">
       <p className="status-bar">
-        You are: {playerNames[playerID]} {ctx.currentPlayer == playerID && "(it's your turn)"}
+        You are: {playerNames[playerID]} {ctx.currentPlayer == playerID && '(your turn)'}
       </p>
-      <>
+      <p>
         {ctx.currentPlayer == playerID && G.chosenAction === null && (
           <>
-            <div className="row pt-4">
+            <div className="row pt-2">
               <div className="col pb-3">
                 <h4>Choose your action:</h4>
               </div>
@@ -316,7 +324,9 @@ const Board = (props) => {
         {ctx.currentPlayer == playerID && G.chosenAction === 'look' && (
           <div className="row pt-4">
             <div className="col-3">
-              <div className="card text-center p-4 shadow">Your role: {G.roles[playerID]}</div>
+              <div className="text-center">
+                <p>Your role: {G.roles[playerID]}</p>
+              </div>
             </div>
 
             <div className="col-4 pb-3">
@@ -333,10 +343,10 @@ const Board = (props) => {
               <>
                 <h2>Waiting for others to challenge</h2>
                 {waitToForce ? (
-                  <button className="btn btn-outline-dark disabled">Force Resolve (wait)</button>
+                  <button className="btn btn-outline-dark disabled">Resolve (wait)</button>
                 ) : (
                   <button className="btn btn-outline-dark" onClick={() => moves.forceResolve()}>
-                    Force Resolve
+                    Resolve
                   </button>
                 )}
               </>
@@ -391,11 +401,11 @@ const Board = (props) => {
           )}
         </div>
         {G.currentAction && <p>Current Action: {G.currentAction}</p>}
-      </>
-      <div className="row">
-        <p>Last actions:</p>
+      </p>
+      <div className="row pt-3">
+        {/* <p>Last actions:</p> */}
         {G.logs && (
-          <ul>
+          <ul className="log">
             {G.logs.map((log, i) => {
               if (!log) {
                 return null
@@ -404,6 +414,13 @@ const Board = (props) => {
             })}
           </ul>
         )}
+      </div>
+      <div className="row">
+        <p>
+          <button className="btn btn-outline-dark" onClick={() => setDisplayGuide(true)}>
+            Guide
+          </button>
+        </p>
       </div>
     </div>
   )
