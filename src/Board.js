@@ -7,8 +7,6 @@ import {
   swapRequired,
   getPlayersToReveal,
   roleNeedsTarget,
-  shouldWaitToForce,
-  displayAction,
   getActionString,
 } from './utils'
 import PlayerDisplay from './PlayerDisplay'
@@ -24,7 +22,7 @@ const Board = (props) => {
   }
 
   const RevealedPlayersDisplay = (props) => {
-    const { playerID, ctx, G } = props
+    const { G } = props
     const revealed = getPlayersToReveal(G)
     return (
       <>
@@ -67,7 +65,7 @@ const Board = (props) => {
   }
 
   const ChallengeDisplay = (props) => {
-    const { playerID, ctx, G, moves } = props
+    const { ctx, G, moves } = props
 
     return (
       <>
@@ -292,11 +290,13 @@ const Board = (props) => {
 
   return (
     <div className="container">
-      <p className="status-bar">
-        You are: {playerNames[playerID]} {ctx.currentPlayer == playerID && '(your turn)'}
-      </p>
-      <p>
-        {ctx.currentPlayer == playerID && G.chosenAction === null && (
+      <div className="status-bar">
+        <p>
+          You are: {playerNames[playerID]} {ctx.currentPlayer === playerID && '(your turn)'}
+        </p>
+      </div>
+      <div>
+        {ctx.currentPlayer === playerID && G.chosenAction === null && (
           <>
             <div className="row pt-2">
               <div className="col pb-3">
@@ -321,7 +321,7 @@ const Board = (props) => {
           </>
         )}
 
-        {ctx.currentPlayer == playerID && G.chosenAction === 'look' && (
+        {ctx.currentPlayer === playerID && G.chosenAction === 'look' && (
           <div className="row pt-4">
             <div className="col-3">
               <div className="text-center">
@@ -337,7 +337,7 @@ const Board = (props) => {
           </div>
         )}
 
-        {ctx.currentPlayer == playerID && G.chosenAction === 'roleplay' && (
+        {ctx.currentPlayer === playerID && G.chosenAction === 'roleplay' && (
           <>
             {G.chosenRole ? (
               <>
@@ -383,11 +383,11 @@ const Board = (props) => {
           </>
         )}
 
-        {ctx.currentPlayer == playerID && G.chosenAction === 'swap' && <SwapDisplay {...props} />}
+        {ctx.currentPlayer === playerID && G.chosenAction === 'swap' && <SwapDisplay {...props} />}
 
         <hr />
 
-        {ctx.currentPlayer != playerID && G.chosenRole !== null && <ChallengeDisplay {...props} />}
+        {ctx.currentPlayer !==playerID && G.chosenRole !== null && <ChallengeDisplay {...props} />}
 
         <PlayerDisplay {...props} />
         <div className="row">
@@ -401,7 +401,7 @@ const Board = (props) => {
           )}
         </div>
         {G.currentAction && <p>Current Action: {G.currentAction}</p>}
-      </p>
+      </div>
       <div className="row pt-3">
         {/* <p>Last actions:</p> */}
         {G.logs && (

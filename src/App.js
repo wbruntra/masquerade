@@ -14,15 +14,11 @@ import {
   Route,
   Link,
   useParams,
-  useHistory,
 } from 'react-router-dom'
 import axios from 'axios'
 import { getPlayerSlots } from './utils'
 
-const queryString = require('query-string')
 require('dotenv').config()
-
-const PORT = process.env.REACT_APP_SERVER_PORT
 
 const Menu = () => {
   const [code, setCode] = useState('')
@@ -31,20 +27,18 @@ const Menu = () => {
       <Link to="/create">Host</Link>
       <hr />
       <Link to={`/join/${code}`}>Join</Link>
-      <input value={code} onChange={(e) => setCode(e.target.value)} />
+      <input className="ml-3" value={code} onChange={(e) => setCode(e.target.value)} />
     </div>
   )
 }
 
 const ServerGame = (props) => {
   const { host } = props
-  let config, playerId, numPlayers, players
+  let playerId, numPlayers, players
   let MasqueradeClient
   const [matchData, setMatchData] = useState({})
   const { matchId, yourName } = useParams()
-  const history = useHistory()
   const [playerName, setPlayerName] = useState(yourName || '')
-  const [inputPlayer, setInputPlayer] = useState('')
   let clientOpts
 
   useEffect(() => {

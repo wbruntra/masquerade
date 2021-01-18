@@ -1,17 +1,14 @@
-import { useState, useEffect } from 'react'
-import { Masquerade } from './Game'
-import Board from './Board'
-import randomstring from 'randomstring'
-import { BrowserRouter as Router, Switch, Route, Link, useHistory } from 'react-router-dom'
+import { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 
 
 const JoinGame = () => {
-  const [matchID, setMatchID] = useState(null)
-  const [gameName, setGameName] = useState('fun')
+  const [gameName, setGameName] = useState('')
+  const [yourName, setYourName] = useState('')
   const history = useHistory()
 
   const joinGame = async (e) => {
-    history.push(`/join/${gameName}`)
+    history.push(`/join/${gameName}/${yourName}`)
   }
 
   return (
@@ -29,6 +26,18 @@ const JoinGame = () => {
             }}
           />
         </div>
+        <div>
+          <label htmlFor="your-name">Your Name</label>
+          <input
+            className="ml-3"
+            id="your-name"
+            value={yourName}
+            onChange={(e) => {
+              setYourName(e.target.value)
+            }}
+          />
+        </div>
+
         <div>
           <input type="submit" value="Join Game" />
         </div>
