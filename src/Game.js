@@ -139,7 +139,9 @@ const forceResolve = (G, ctx) => {
 
 const challengeRespond = (G, ctx, response) => {
   if (response === 'challenge') {
-    G.challengingPlayers.push(ctx.playerID)
+    if (!G.challengingPlayers.includes(ctx.playerID)) {
+      G.challengingPlayers.push(ctx.playerID)
+    }
   }
   if (Object.keys(ctx.activePlayers).length === 2) {
     forceResolve(G, ctx)

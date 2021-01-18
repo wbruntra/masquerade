@@ -69,43 +69,45 @@ const Board = (props) => {
       <div className="row">
         {G.swapTarget === null ? (
           <>
-            <div className="col-3">
-              <h4>Swap with:</h4>
-            </div>
-            <div className="col-8">
-              <div className="row">
-                {_.map(G.roles, (val, key) => {
-                  if (key !== playerID) {
-                    return (
-                      <div key={`swap-${key}`} className="col-4 pb-3">
-                        <button
-                          className="btn btn-outline-dark"
-                          onClick={() => {
-                            onChooseSwap(key)
-                          }}
-                          key={key}
-                        >
-                          {playerNames[key]}
-                        </button>
-                      </div>
-                    )
-                  }
-                })}
+            <div className="row">
+              <div className="col">
+                <h4>Swap with:</h4>
               </div>
+            </div>
+            <div className="row">
+              {_.map(G.roles, (val, key) => {
+                if (key !== playerID) {
+                  return (
+                    <div key={`swap-${key}`} className="col-4 pb-4">
+                      <button
+                        className="btn btn-outline-dark"
+                        onClick={() => {
+                          onChooseSwap(key)
+                        }}
+                        key={key}
+                      >
+                        {playerNames[key]}
+                      </button>
+                    </div>
+                  )
+                }
+              })}
             </div>
           </>
         ) : (
           <>
-            <div className="row">
-              <div className="col-6">
+            <div className="row pb-3">
+              <div className="col">
                 <h4>Swap cards with {playerNames[G.swapTarget]}?</h4>
               </div>
-              <div className="col-3">
+            </div>
+            <div className="row">
+              <div className="col-6 col-md-4">
                 <button className="btn btn-outline-dark" onClick={() => moves.performSwap(true)}>
                   Yes, really swap
                 </button>
               </div>
-              <div className="col-3">
+              <div className="col-6 col-md-4">
                 <button className="btn btn-outline-dark" onClick={() => moves.performSwap(false)}>
                   No, keep my own card
                 </button>
@@ -282,30 +284,33 @@ const Board = (props) => {
 
   return (
     <div className="container">
-      <h2>
+      <p className="status-bar">
         You are: {playerNames[playerID]} {ctx.currentPlayer == playerID && "(it's your turn)"}
-      </h2>
+      </p>
       <>
         {ctx.currentPlayer == playerID && G.chosenAction === null && (
-          <div className="row pt-4">
-            <div className="col-4">
-              <h4>Choose your action:</h4>
+          <>
+            <div className="row pt-4">
+              <div className="col pb-3">
+                <h4>Choose your action:</h4>
+              </div>
             </div>
-
-            {actionOptions.map((action) => {
-              return (
-                <div className="col-2 pb-3" key={`${action}-button`}>
-                  <button
-                    className="btn btn-outline-dark"
-                    onClick={() => onChooseAction(action)}
-                    key={`btn-${action}`}
-                  >
-                    {action}
-                  </button>
-                </div>
-              )
-            })}
-          </div>
+            <div className="row">
+              {actionOptions.map((action) => {
+                return (
+                  <div className="col-4 col-md-2 pb-3" key={`${action}-button`}>
+                    <button
+                      className="btn btn-outline-dark"
+                      onClick={() => onChooseAction(action)}
+                      key={`btn-${action}`}
+                    >
+                      {action}
+                    </button>
+                  </div>
+                )
+              })}
+            </div>
+          </>
         )}
 
         {ctx.currentPlayer == playerID && G.chosenAction === 'look' && (

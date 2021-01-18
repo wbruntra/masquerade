@@ -24,6 +24,18 @@ require('dotenv').config()
 
 const PORT = process.env.REACT_APP_SERVER_PORT
 
+const Menu = () => {
+  const [code, setCode] = useState('')
+  return (
+    <div className="container">
+      <Link to="/create">Host</Link>
+      <hr />
+      <Link to={`/join/${code}`}>Join</Link>
+      <input value={code} onChange={(e) => setCode(e.target.value)} />
+    </div>
+  )
+}
+
 const ServerGame = (props) => {
   const { host } = props
   let config, playerId, numPlayers, players
@@ -59,7 +71,7 @@ const ServerGame = (props) => {
       multiplayer: SocketIO({ server: process.env.REACT_APP_SOCKER_SERVER }),
     }
     console.log(clientOpts)
-    MasqueradeClient = Client(clientOpts)
+    MasqueradeClient = Client({ ...clientOpts, debug: false })
 
     return (
       <div className="container">
@@ -79,6 +91,7 @@ const ServerGame = (props) => {
     numPlayers: matchPlayers.length,
     board: Board,
     multiplayer: SocketIO({ server: process.env.REACT_APP_SOCKER_SERVER }),
+    debug: false,
   })
 
   const playerIndex = matchPlayers.indexOf(playerName)
@@ -154,6 +167,9 @@ const App = () => {
         </Route>
         <Route exact path="/join">
           <JoinGame />
+        </Route>
+        <Route path="/">
+          <Menu />
         </Route>
       </Switch>
     </Router>

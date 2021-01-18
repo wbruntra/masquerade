@@ -7,7 +7,7 @@ const PlayerDisplay = ({ playerID, ctx, G, playerNames }) => {
         {_.map(G.originalRoles, (val, key) => {
           const currentPlayer = ctx.currentPlayer === key
           return (
-            <div className="col-3 p-2" key={`player-${key}`}>
+            <div className="col-6 col-md-3 p-2" key={`player-${key}`}>
               <div className="card shadow text-center bg-gray p-2">
                 <p className={currentPlayer ? 'text-bold' : ''}>{playerNames[key]} </p>
                 {G.scores[key] && <p>Treasure: {G.scores[key]}</p>}
@@ -16,7 +16,7 @@ const PlayerDisplay = ({ playerID, ctx, G, playerNames }) => {
             </div>
           )
         })}
-        <div className="col-3 p-2">
+        <div className="col-6 col-md-3 p-2">
           <div className="card shadow text-center bg-gray p-2">
             <p>Courthouse</p>
             <p>Treasure: {G.coinsOnCourt}</p>
