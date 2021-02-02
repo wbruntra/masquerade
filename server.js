@@ -1,6 +1,6 @@
 require('dotenv').config()
 const { Server } = require('boardgame.io/server')
-const { Masquerade } = require('./Game')
+const { Masquerade } = require('./client/src/Game')
 
 const server = Server({ games: [Masquerade] })
 

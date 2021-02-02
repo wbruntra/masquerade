@@ -1,13 +1,6 @@
-import { useState, useEffect } from 'react'
-import { Masquerade } from './Game'
-import Board from './Board'
+import { useState } from 'react'
 import randomstring from 'randomstring'
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useParams,
   useHistory,
 } from 'react-router-dom'
 import axios from 'axios'

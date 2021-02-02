@@ -42,7 +42,7 @@ const Board = (props) => {
     )
   }
 
-  const DisplayTargets = ({ targets, onChooseRoleTarget }) => {
+  const DisplayTargets = ({ targets, onChooseTarget }) => {
     return (
       <div className="row">
         {targets.map((t, i) => {
@@ -51,7 +51,7 @@ const Board = (props) => {
             <div className="col-4 col-md-2" key={t}>
               <button
                 className={`btn btn-outline-dark ${isTarget ? 'active' : ''}`}
-                onClick={() => onChooseRoleTarget(t)}
+                onClick={() => onChooseTarget(t)}
               >
                 {isTarget && '*'}
                 {playerNames[t]} - {G.scores[t]}
@@ -91,6 +91,7 @@ const Board = (props) => {
   }
 
   const SwapDisplay = (props) => {
+    const swapOptions = _.map(G.roles, (val, key) => key)
     return (
       <>
         {G.swapTarget === null ? (
@@ -100,6 +101,7 @@ const Board = (props) => {
                 <h4>Swap with:</h4>
               </div>
             </div>
+            
             <div className="row">
               {_.map(G.roles, (val, key) => {
                 if (key !== playerID) {
@@ -183,7 +185,7 @@ const Board = (props) => {
             <div className="row">
               <h3>Choose who to take from:</h3>
             </div>
-            <DisplayTargets targets={bishopTargets} onChooseRoleTarget={onChooseRoleTarget} />
+            <DisplayTargets targets={bishopTargets} onChooseTarget={onChooseRoleTarget} />
           </>
         )
       case 'witch':
@@ -193,7 +195,7 @@ const Board = (props) => {
             <h3>Choose who you want to swap fortunes with:</h3>
             <DisplayTargets
               targets={Object.keys(otherPlayers)}
-              onChooseRoleTarget={onChooseRoleTarget}
+              onChooseTarget={onChooseRoleTarget}
             />
           </>
         )
@@ -223,7 +225,6 @@ const Board = (props) => {
             <button
               className="btn btn-outline-dark"
               onClick={() => {
-                console.log('click ok')
                 moves.finishRolePhase()
               }}
             >
@@ -288,6 +289,22 @@ const Board = (props) => {
 
   const actionOptions = swapRequired(G, ctx) ? ['swap'] : ['roleplay', 'swap', 'look']
 
+  const DisplayChoices = ({ choices, onChoose }) => {
+    return (
+      <div className="row">
+        {choices.map((choice) => {
+          return (
+            <div className="col-4 col-md-2 pb-3" key={`${choice}-button`}>
+              <button className="btn btn-outline-dark" onClick={() => onChoose(choice)}>
+                {choice}
+              </button>
+            </div>
+          )
+        })}
+      </div>
+    )
+  }
+
   return (
     <div className="container">
       <div className="status-bar">
@@ -303,21 +320,8 @@ const Board = (props) => {
                 <h4>Choose your action:</h4>
               </div>
             </div>
-            <div className="row">
-              {actionOptions.map((action) => {
-                return (
-                  <div className="col-4 col-md-2 pb-3" key={`${action}-button`}>
-                    <button
-                      className="btn btn-outline-dark"
-                      onClick={() => onChooseAction(action)}
-                      key={`btn-${action}`}
-                    >
-                      {action}
-                    </button>
-                  </div>
-                )
-              })}
-            </div>
+
+            <DisplayChoices choices={actionOptions} onChoose={onChooseAction} />
           </>
         )}
 
@@ -357,27 +361,16 @@ const Board = (props) => {
                     <h4>Choose your role:</h4>
                   </div>
                 </div>
-                <div className="row">
-                  {G.roleList.map((r, i) => {
-                    return (
-                      <div className="col-4 pb-3" key={`role-${i}`}>
-                        <button
-                          className="btn btn-outline-dark"
-                          onClick={() => {
-                            moves.declareRole(r)
-                            setWaitToForce(true)
-                            window.setTimeout(() => {
-                              setWaitToForce(false)
-                            }, settings.secondsBeforeForceAllowed * 1000)
-                          }}
-                          key={i}
-                        >
-                          {r}
-                        </button>
-                      </div>
-                    )
-                  })}
-                </div>
+                <DisplayChoices
+                  choices={G.roleList}
+                  onChoose={(choice) => {
+                    moves.declareRole(choice)
+                    setWaitToForce(true)
+                    window.setTimeout(() => {
+                      setWaitToForce(false)
+                    }, settings.secondsBeforeForceAllowed * 1000)
+                  }}
+                />
               </>
             )}
           </>
@@ -387,16 +380,20 @@ const Board = (props) => {
 
         <hr />
 
-        {ctx.currentPlayer !==playerID && G.chosenRole !== null && <ChallengeDisplay {...props} />}
+        {ctx.currentPlayer !== playerID && G.chosenRole !== null && (
+          <ChallengeDisplay {...props} />
+        )}
 
         <PlayerDisplay {...props} />
         <div className="row">
           {ctx.activePlayers && (
             <div className="col">
               Waiting for:{' '}
-              {Object.keys(ctx.activePlayers).map((k) => {
-                return `${playerNames[k]}, `
-              })}
+              {Object.keys(ctx.activePlayers)
+                .map((k) => {
+                  return playerNames[k]
+                })
+                .join(', ')}
             </div>
           )}
         </div>
