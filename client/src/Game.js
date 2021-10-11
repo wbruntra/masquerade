@@ -192,7 +192,7 @@ const declareRole = (G, ctx, role) => {
   G.declaredAt = new Date().getTime()
   ctx.events.setActivePlayers({
     all: 'challenge',
-    moveLimit: 1,
+    maxMoves: 1,
   })
   let recentAction = {
     actor: ctx.currentPlayer,

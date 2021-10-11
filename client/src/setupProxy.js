@@ -9,4 +9,11 @@ module.exports = function (app) {
       changeOrigin: true,
     }),
   )
+  app.use(
+    '/socket.io',
+    createProxyMiddleware({
+      target: `http://localhost:${process.env.REACT_APP_SERVER_PORT}`,
+      changeOrigin: true,
+    }),
+  )
 }

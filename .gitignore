@@ -26,3 +26,6 @@ yarn-error.log*
 .eslintcache
 keys.js
 dbs/
+ecosystem.config.js
+
+dev.sqlite3

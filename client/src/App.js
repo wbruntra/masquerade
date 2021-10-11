@@ -8,27 +8,22 @@ import Board from './Board'
 import CreateGame from './CreateGame'
 import JoinGame from './JoinGame'
 import React, { useState, useEffect } from 'react'
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useParams,
-} from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, Link, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { getPlayerSlots } from './utils'
+import MainContainer from './MainContainer'
 
 require('dotenv').config()
 
 const Menu = () => {
   const [code, setCode] = useState('')
   return (
-    <div className="container">
+    <MainContainer>
       <Link to="/create">Host</Link>
       <hr />
-      <Link to={`/join/${code}`}>Join</Link>
+      <Link to={`/join/${code}`}>Join (enter code):</Link>
       <input className="ml-3" value={code} onChange={(e) => setCode(e.target.value)} />
-    </div>
+    </MainContainer>
   )
 }
 
@@ -54,7 +49,7 @@ const ServerGame = (props) => {
 
   if (host) {
     const data = JSON.parse(window.localStorage.getItem('gameData'))
-    console.log(data)
+    console.log('saved data', data)
     playerId = '0'
     numPlayers = data.numPlayers
     players = data.players
@@ -64,13 +59,13 @@ const ServerGame = (props) => {
       board: Board,
       multiplayer: SocketIO({ server: process.env.REACT_APP_SOCKER_SERVER }),
     }
-    console.log(clientOpts)
+    console.log('client opts', clientOpts)
     MasqueradeClient = Client({ ...clientOpts, debug: false })
 
     return (
-      <div className="container">
+      <MainContainer>
         <MasqueradeClient matchID={matchId} playerID={'0'} playerNames={getPlayerSlots(players)} />
-      </div>
+      </MainContainer>
     )
   }
 
@@ -92,8 +87,8 @@ const ServerGame = (props) => {
 
   if (playerIndex === -1) {
     return (
-      <div>
-        Who are you?
+      <MainContainer>
+        <p className="mb-3">Who are you?</p>
         <form
           onSubmit={(e) => {
             e.preventDefault()
@@ -101,24 +96,25 @@ const ServerGame = (props) => {
         >
           <input
             value={playerName}
+            autoFocus
             onChange={(e) => {
               // window.localStorage.setItem('savedName', e.target.value)
               setPlayerName(e.target.value)
             }}
           />
         </form>
-      </div>
+      </MainContainer>
     )
   }
 
   return (
-    <div className="container">
+    <MainContainer>
       <MasqueradeClient
         matchID={matchId}
         playerID={playerIndex.toString()}
         playerNames={getPlayerSlots(matchPlayers)}
       />
-    </div>
+    </MainContainer>
   )
 }
 
@@ -162,6 +158,9 @@ const App = () => {
         <Route exact path="/join">
           <JoinGame />
         </Route>
+        {/* <Route path="/local">
+          <LocalGame />
+        </Route> */}
         <Route path="/">
           <Menu />
         </Route>

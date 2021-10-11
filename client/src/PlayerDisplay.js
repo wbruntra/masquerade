@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-const PlayerDisplay = ({ playerID, ctx, G, playerNames }) => {
+const PlayerDisplay = ({ playerID, ctx, G, playerNames, displayRole }) => {
   return (
     <>
       <div className="row">
@@ -11,7 +11,7 @@ const PlayerDisplay = ({ playerID, ctx, G, playerNames }) => {
               <div className="card shadow text-center bg-gray p-2">
                 <p className={currentPlayer ? 'text-bold' : ''}>{playerNames[key]} </p>
                 {G.scores[key] && <p>Treasure: {G.scores[key]}</p>}
-                <p>{val}</p>
+                {displayRole && <p>{val}</p>}
               </div>
             </div>
           )

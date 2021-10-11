@@ -3,6 +3,7 @@ const config = require('./knexfile')[process.env.NODE_ENV || 'development']
 const knex = require('knex')(config)
 const express = require('express')
 var logger = require('morgan')
+const date = require('date-and-time')
 
 const getGameData = async (matchId) => {
   const result = await knex('games').select().where({ matchId })
@@ -52,10 +53,19 @@ app.get('/db/game/:matchId', async (req, res) => {
   return res.json(game)
 })
 
+app.get('/db/game/list', async (req, res) => {
+  const games = knex('games').select('id', 'matchId')
+})
+
 app.post('/db/game', async (req, res) => {
   const { matchId, gameData } = req.body
   const result = await addOrUpdateGame(matchId, gameData)
   return res.send('OK')
+})
+
+app.post('/db/cleanup', async (req, res) => {
+  const now = new Date()
+  knex('games').where('created_at', '<', date.addMinutes(now, -60)).del()
 })
 
 module.exports = app

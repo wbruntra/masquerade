@@ -16,6 +16,8 @@ const Board = (props) => {
   const { playerID, ctx, G, moves, playerNames } = props
   const [waitToForce, setWaitToForce] = useState(false)
   const [displayGuide, setDisplayGuide] = useState(false)
+  console.log('G', G)
+  console.log('ctx', ctx)
 
   if (displayGuide) {
     return <Guide handleClose={() => setDisplayGuide(false)} />
@@ -358,7 +360,7 @@ const Board = (props) => {
               <>
                 <div className="row">
                   <div className="col">
-                    <h4>Choose your role:</h4>
+                    <h4 className="mb-4">Choose your role:</h4>
                   </div>
                 </div>
                 <DisplayChoices
@@ -384,7 +386,7 @@ const Board = (props) => {
           <ChallengeDisplay {...props} />
         )}
 
-        <PlayerDisplay {...props} />
+        <PlayerDisplay {...props} displayRole={ctx.turn === 1} />
         <div className="row">
           {ctx.activePlayers && (
             <div className="col">

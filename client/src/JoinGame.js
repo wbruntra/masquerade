@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import MainContainer from './MainContainer'
 
 
 const JoinGame = () => {
@@ -12,13 +13,13 @@ const JoinGame = () => {
   }
 
   return (
-    <div className="container">
-      <h2>Join Game</h2>
+    <MainContainer>
+      <h2 className="mb-4">Join Game</h2>
       <form onSubmit={joinGame}>
         <div>
           <label htmlFor="game-name">Game Name</label>
           <input
-            className="ml-3"
+            className="ml-3 mb-3"
             id="game-name"
             value={gameName}
             onChange={(e) => {
@@ -29,7 +30,7 @@ const JoinGame = () => {
         <div>
           <label htmlFor="your-name">Your Name</label>
           <input
-            className="ml-3"
+            className="ml-3 mb-4"
             id="your-name"
             value={yourName}
             onChange={(e) => {
@@ -39,10 +40,10 @@ const JoinGame = () => {
         </div>
 
         <div>
-          <input type="submit" value="Join Game" />
+          <input className="btn btn-primary" type="submit" value="Join Game" />
         </div>
       </form>
-    </div>
+    </MainContainer>
   )
 }
 

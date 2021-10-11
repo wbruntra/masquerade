@@ -4,6 +4,7 @@ import {
   useHistory,
 } from 'react-router-dom'
 import axios from 'axios'
+import MainContainer from './MainContainer'
 
 const CreateGame = () => {
   const [matchId, setMatchId] = useState(
@@ -36,8 +37,8 @@ const CreateGame = () => {
   }
 
   return (
-    <div className="container">
-      <h2>Create Game</h2>
+    <MainContainer>
+      <h2 className="mb-4">Create Game</h2>
       <form onSubmit={createGame}>
         <div>
           <label htmlFor="game-name">Game Name</label>
@@ -53,7 +54,7 @@ const CreateGame = () => {
         <div>
           <label htmlFor="game-players">Players</label>
           <input
-            className="w-50 ml-3"
+            className="w-50 ml-3 mb-4"
             id="game-players"
             value={players}
             onChange={(e) => {
@@ -62,10 +63,10 @@ const CreateGame = () => {
           />
         </div>
         <div>
-          <input type="submit" value="Join Game" />
+          <input className="btn btn-primary" type="submit" value="Create" />
         </div>
       </form>
-    </div>
+    </MainContainer>
   )
 }
 

@@ -174,7 +174,6 @@ test('playing cheat with 10 coins wins the game', () => {
   const MasqueradeScenario = {
     ...Masquerade,
     setup: (ctx) => {
-      ctx.events.setPhase('resolveRole')
       return {
         ...neutralGameState,
         scores: { 0: 10 },
@@ -188,6 +187,8 @@ test('playing cheat with 10 coins wins the game', () => {
   const client = Client({
     game: MasqueradeScenario,
   })
+  client.events.setPhase('resolveRole')
+  // console.log(client.events)
 
   client.moves.finishRolePhase()
 

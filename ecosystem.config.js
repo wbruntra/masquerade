@@ -1,8 +1,8 @@
-const BASE = '/home/william/web/masquerade/'
+const path = require('path')
 
 const masquerade_db = {
   name: 'masquerade_db',
-  script: `${BASE}/app.js`,
+  script: path.join(__dirname, 'app.js'),
   autorestart: true,
   watch: false,
   max_memory_restart: '128M',
@@ -14,7 +14,7 @@ const masquerade_db = {
 
 const masquerade_server = {
   name: 'masquerade_server',
-  script: `${BASE}/src/server.js`,
+  script: path.join(__dirname, 'src', 'server.js'),
   node_args: '-r esm',
   autorestart: true,
   watch: false,
@@ -25,6 +25,7 @@ const masquerade_server = {
     REACT_APP_SERVER_PORT: '8010',
   },
 }
+
 module.exports = {
   apps: [masquerade_db, masquerade_server],
 }
