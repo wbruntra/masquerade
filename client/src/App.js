@@ -57,7 +57,12 @@ const ServerGame = (props) => {
       game: Masquerade,
       numPlayers,
       board: Board,
-      multiplayer: SocketIO({ server: process.env.REACT_APP_SOCKET_SERVER }),
+      multiplayer: SocketIO({
+        server:
+          process.env.NODE_ENV === 'production'
+            ? process.env.REACT_APP_SOCKET_SERVER
+            : 'localhost:8010',
+      }),
     }
     console.log('client opts', clientOpts)
     MasqueradeClient = Client({ ...clientOpts, debug: false })
