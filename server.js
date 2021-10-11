@@ -9,10 +9,6 @@ const server =
     ? Server({
         games: [Masquerade],
         origins: [Origins.LOCALHOST, ...keys.origins],
-        https: {
-          cert: fs.readFileSync(keys.ssl.ssl_certificate_path),
-          key: fs.readFileSync(keys.ssl.ssl_certificate_key_path),
-        },
       })
     : Server({ games: [Masquerade], origins: [Origins.LOCALHOST] })
 
