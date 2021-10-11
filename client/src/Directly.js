@@ -8,7 +8,7 @@ const Directly = () => {
     game: Masquerade,
     numPlayers: 4,
     board: Board,
-    multiplayer: SocketIO({ server: process.env.REACT_APP_SOCKER_SERVER }),
+    multiplayer: SocketIO({ server: process.env.REACT_APP_SOCKET_SERVER }),
     debug: false,
   })
 

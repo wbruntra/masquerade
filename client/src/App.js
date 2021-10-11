@@ -57,7 +57,7 @@ const ServerGame = (props) => {
       game: Masquerade,
       numPlayers,
       board: Board,
-      multiplayer: SocketIO({ server: process.env.REACT_APP_SOCKER_SERVER }),
+      multiplayer: SocketIO({ server: process.env.REACT_APP_SOCKET_SERVER }),
     }
     console.log('client opts', clientOpts)
     MasqueradeClient = Client({ ...clientOpts, debug: false })
@@ -79,7 +79,7 @@ const ServerGame = (props) => {
     game: Masquerade,
     numPlayers: matchPlayers.length,
     board: Board,
-    multiplayer: SocketIO({ server: process.env.REACT_APP_SOCKER_SERVER }),
+    multiplayer: SocketIO({ server: process.env.REACT_APP_SOCKET_SERVER }),
     debug: false,
   })
 
