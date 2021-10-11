@@ -2,6 +2,7 @@ require('dotenv').config()
 const { Server, Origins } = require('boardgame.io/server')
 const { Masquerade } = require('./client/src/Game')
 const keys = require('./keys')
+const fs = require('fs')
 
 const server =
   process.env.NODE_ENV === 'production'
