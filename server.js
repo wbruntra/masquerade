@@ -8,7 +8,7 @@ const server =
   process.env.NODE_ENV === 'production'
     ? Server({
         games: [Masquerade],
-        origins: [...keys.origins],
+        origins: [Origins.LOCALHOST, ...keys.origins],
         https: {
           cert: fs.readFileSync(keys.ssl.ssl_certificate_path),
           key: fs.readFileSync(keys.ssl.ssl_certificate_key_path),
