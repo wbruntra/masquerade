@@ -67,7 +67,10 @@ const Board = (props) => {
   }
 
   const ChallengeDisplay = (props) => {
-    const { ctx, G, moves } = props
+    const { ctx, G, moves, playerID } = props
+    const [hasResponded, setResponse] = useState('')
+    console.log('your playerId', playerID)
+    console.log('active players', Object.keys(ctx.activePlayers))
 
     return (
       <>
@@ -76,18 +79,38 @@ const Board = (props) => {
             {playerNames[ctx.currentPlayer]} is claiming {G.chosenRole}
           </h2>
         </div>
-        <div className="row">
-          <div className="col-4 pb-3">
-            <button className="btn btn-outline-dark" onClick={() => moves.respond('challenge')}>
-              Challenge!
-            </button>
+        {Object.keys(ctx.activePlayers).includes(playerID) ? (
+          <div className="row">
+            <div className="col-4 pb-3">
+              <button
+                className="btn btn-outline-dark"
+                onClick={() => {
+                  console.log('Challenge!')
+                  setResponse('challenge')
+                  moves.respond('challenge')
+                }}
+              >
+                Challenge!
+              </button>
+            </div>
+            <div className="col-4 pb-3">
+              <button
+                className="btn btn-outline-dark"
+                onClick={() => {
+                  console.log('Allow!')
+                  setResponse('allow')
+                  moves.respond('allow')
+                }}
+              >
+                Allow!
+              </button>
+            </div>
           </div>
-          <div className="col-4 pb-3">
-            <button className="btn btn-outline-dark" onClick={() => moves.respond('allow')}>
-              Allow!
-            </button>
+        ) : (
+          <div className="row">
+            <p>Waiting for others to respond</p>
           </div>
-        </div>
+        )}
       </>
     )
   }
@@ -103,7 +126,7 @@ const Board = (props) => {
                 <h4>Swap with:</h4>
               </div>
             </div>
-            
+
             <div className="row">
               {_.map(G.roles, (val, key) => {
                 if (key !== playerID) {
