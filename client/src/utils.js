@@ -37,6 +37,7 @@ export const validRolePlayerExists = (G) => {
     }
     for (let i = 0; i < challengers.length; i++) {
       playerRole = G.roles[challengers[i]]
+
       if (playerRole === role) {
         return challengers[i]
       }

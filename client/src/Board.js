@@ -68,7 +68,6 @@ const Board = (props) => {
 
   const ChallengeDisplay = (props) => {
     const { ctx, G, moves, playerID } = props
-    const [hasResponded, setResponse] = useState('')
     console.log('your playerId', playerID)
     console.log('active players', Object.keys(ctx.activePlayers))
 
@@ -86,7 +85,6 @@ const Board = (props) => {
                 className="btn btn-outline-dark"
                 onClick={() => {
                   console.log('Challenge!')
-                  setResponse('challenge')
                   moves.respond('challenge')
                 }}
               >
@@ -98,7 +96,6 @@ const Board = (props) => {
                 className="btn btn-outline-dark"
                 onClick={() => {
                   console.log('Allow!')
-                  setResponse('allow')
                   moves.respond('allow')
                 }}
               >
@@ -292,6 +289,8 @@ const Board = (props) => {
           <h3>
             You are playing as {G.chosenRole}! You have {G.scores[playerID]} coins.
           </h3>
+          {G.challengingPlayers.length > 0 && <RevealedPlayersDisplay G={G} />}
+
           <ChoicesDisplay G={G} />
           {canResolve && (
             <div className="row pt-3">
@@ -307,6 +306,7 @@ const Board = (props) => {
     }
     return (
       <p>
+        {G.challengingPlayers.length > 0 && <RevealedPlayersDisplay G={G} />}
         Waiting for the {G.chosenRole} ({playerNames[ctx.currentPlayer]}) to play...
       </p>
     )

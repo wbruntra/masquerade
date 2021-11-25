@@ -139,6 +139,7 @@ const forceResolve = (G, ctx) => {
 const challengeRespond = (G, ctx, response) => {
   if (response === 'challenge') {
     if (!G.challengingPlayers.includes(ctx.playerID)) {
+      G.atLeastOneChallenger = true 
       G.challengingPlayers.push(ctx.playerID)
     }
   }
@@ -229,6 +230,7 @@ export const Masquerade = {
       revealedPlayers: [],
       playerMustSwap: false,
       declaredAt: null,
+      atLeastOneChallenger: false,
       logs: [null, null, null],
     }
 
@@ -267,6 +269,7 @@ export const Masquerade = {
         G.roleTarget = null
         G.declarer = null
         G.noValidRolePlayer = false
+        G.atLeastOneChallenger = false
       },
     },
   },
