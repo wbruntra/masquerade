@@ -409,7 +409,7 @@ const Board = (props) => {
           <ChallengeDisplay {...props} />
         )}
 
-        <PlayerDisplay {...props} displayRole={ctx.turn === 1} />
+        <PlayerDisplay {...props} displayRole={true} />
         <div className="row">
           {ctx.activePlayers && (
             <div className="col">
